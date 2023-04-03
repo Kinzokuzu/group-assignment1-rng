@@ -3,7 +3,7 @@
 #include "part2.cpp"
 
 int main() {
-  std::vector<Student> test_list(9);
+  std::vector<Student> test_list(10);
 
   for (int i = 0; i < test_list.size(); i++) {
     test_list.at(i).id = i;
@@ -17,6 +17,7 @@ int main() {
   std::cout << "Before\n";
   PrintStudents(test_list);
   PrintGroup(test_map);
+  std::cout << AvailableSpots(test_map) << std::endl;
 
   std::cout << std::endl;
 
@@ -25,6 +26,7 @@ int main() {
   std::cout << "After\n";
   PrintStudents(test_list);
   PrintGroup(test_map);
+  std::cout << AvailableSpots(test_map) << std::endl;
 
   return 0;
 }

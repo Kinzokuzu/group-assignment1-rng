@@ -10,8 +10,28 @@ struct Student {
   int id = -1;
   int group = -1;
 }; // End Student
-// FIX-ME: When there are more students than available spots in groups, function loops forever.
+
+int TotalStudentsInGroups(const std::unordered_map<int, int>& g) {
+  int student_count{0};
+  
+  for (const auto& [key, value] : g) {
+    student_count += value;
+  }
+
+  return student_count;
+}
+
+int AvailableSpots(const std::unordered_map<int, int>& g) {
+  return (g.size() * 5) - TotalStudentsInGroups(g);
+}
+// TO-DO: Rewrite AssignStudents() so that each group has 3 - 5 students, currently can have
+// less than 3 students
 std::vector<Student> AssignStudents(std::vector<Student>& s, std::unordered_map<int, int>& g) {
+  // If there are more stoudants than available spots do nothing
+  if (AvailableSpots(g) < s.size()) {
+    return s;
+  }
+  // Random number generation
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> distrib(0, g.size() - 1);
