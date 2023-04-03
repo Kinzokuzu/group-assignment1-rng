@@ -24,6 +24,33 @@ int TotalStudentsInGroups(const std::unordered_map<int, int>& g) {
 int AvailableSpots(const std::unordered_map<int, int>& g) {
   return (g.size() * 5) - TotalStudentsInGroups(g);
 }
+
+void SortPairVector(std::vector<std::pair<int, int>>& pair_vector) {
+  std::pair<int, int> temp;
+
+  for (auto& i : pair_vector) {
+    for (auto& j : pair_vector) {
+      if (j.second > i.second) {
+        temp = j;
+        j = i;
+        i = j;
+      }
+    }
+  }
+}
+
+std::vector<std::pair<int, int>> MapToVector(std::unordered_map<int, int> map) {
+  std::vector<std::pair<int, int>> pair_vector(map.size());
+
+  for (int i = 0; i < map.size(); i++) {
+    pair_vector.at(i).first = i;
+    pair_vector.at(i).second = map[i];
+  }
+
+  SortPairVector(pair_vector);
+
+  return pair_vector;
+}
 // TO-DO: Rewrite AssignStudents() so that each group has 3 - 5 students, currently can have
 // less than 3 students
 std::vector<Student> AssignStudents(std::vector<Student>& s, std::unordered_map<int, int>& g) {
@@ -31,21 +58,28 @@ std::vector<Student> AssignStudents(std::vector<Student>& s, std::unordered_map<
   if (AvailableSpots(g) < s.size()) {
     return s;
   }
+  // Create a vector of goups by number of students in each group (high to low)
+  std::vector<std::pair<int, int>> g_vector = MapToVector(g);
   // Random number generation
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> distrib(0, g.size() - 1);
 
   int rand_num;
+  int current_group{0};
   for (int i = 0; i < s.size();) {
     rand_num = distrib(gen);
 
-    if (g[rand_num] < 5) {
-      s.at(i).group = rand_num; // Assign student i to group rand_num
-      g[rand_num]++;            // Increment the number of students in group rand_num
-      i++;                      // Move onto next student
+    if (g_vector.at(current_group).second < 5) {
+      s.at(i).group = i;                   // Assign student i to group current group
+      g[current_group]++;                  // Increment members in current group
+      g_vector.at(current_group).second++; // Increment members in current group
+
+      i++; // Move on to next student
     }
-    // Else produce another rand_num and try again
+    else {
+      current_group++; // If current group is full, move one to next group
+    }
   }
 
   return s;

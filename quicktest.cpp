@@ -3,7 +3,7 @@
 #include "part2.cpp"
 
 int main() {
-  std::vector<Student> test_list(10);
+  std::vector<Student> test_list(12);
 
   for (int i = 0; i < test_list.size(); i++) {
     test_list.at(i).id = i;
@@ -11,8 +11,8 @@ int main() {
 
   std::unordered_map<int, int> test_map;
 
-  for (int i = 0; i < 2; i++) {
-    test_map[i] = i * 1;
+  for (int i = 0; i < 4; i++) {
+    test_map[i] = 0;
   }
   std::cout << "Before\n";
   PrintStudents(test_list);

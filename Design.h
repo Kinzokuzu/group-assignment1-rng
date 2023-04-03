@@ -45,7 +45,7 @@
  *
  * Takes a set of students (s) and a set of groups (g) and assigns each student to a group, ensuring
  * that no group has less than 3 or more than 5 students.
- * std::vector<Student> AssignStudents(std::vector<Student> s, unordered_map<int, int> g)
+ * void AssignStudents(std::vector<Student> s, unordered_map<int, int> g)
  */
 
 /* Unit Tests
